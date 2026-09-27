@@ -1,0 +1,29 @@
+<?php
+$pageTitle = 'Catálogo';
+$cartCount = $cart->getCount();
+require __DIR__ . '/partials/header.php';
+?>
+<main>
+  <section class="hero-section"><div class="container-xl py-5 py-lg-6"><div class="row align-items-center g-4">
+    <div class="col-lg-7"><span class="eyebrow">Compra fácil, elige mejor</span><h1 class="display-4 fw-bold mt-3">Encuentra lo que necesitas, a tu manera.</h1><p class="lead text-secondary mt-3 mb-4">Explora productos de distintas categorías y filtra el catálogo según tus preferencias.</p><a class="btn btn-primary btn-lg" href="#catalogo">Explorar productos ↓</a></div>
+    <div class="col-lg-5"><div class="hero-card p-4 p-lg-5"><span class="hero-card-icon" aria-hidden="true">✦</span><h2 class="h4 mt-4">Una experiencia sencilla</h2><p class="text-secondary mb-0">Busca, revisa características y opiniones, y agrega tus favoritos al carrito.</p><div class="hero-decoration" aria-hidden="true">✓</div></div></div>
+  </div></div></section>
+  <section id="catalogo" class="container-xl py-5 py-lg-6">
+    <div class="d-flex justify-content-between align-items-end gap-3 flex-wrap mb-4"><div><span class="eyebrow">Nuestro catálogo</span><h2 class="h2 mt-2 mb-1">Productos destacados</h2><p class="text-secondary mb-0">Encuentra el producto ideal para ti.</p></div><span class="small text-secondary"><?= count($products) ?> <?= count($products) === 1 ? 'producto' : 'productos' ?></span></div>
+    <form class="filter-panel card border-0 shadow-sm mb-4" method="get" action="catalogo.php"><div class="card-body p-3 p-lg-4"><div class="row g-3 align-items-end">
+      <div class="col-12 col-lg-4"><label class="form-label small fw-semibold" for="q">Buscar productos</label><input class="form-control" id="q" name="q" type="search" value="<?= escapeHtml($filters['q']) ?>" placeholder="Ej. audífonos o Computación"></div>
+      <div class="col-12 col-sm-6 col-lg-3"><label class="form-label small fw-semibold" for="category">Categoría</label><select class="form-select" id="category" name="category"><option value="">Todas las categorías</option><?php foreach ($categories as $category): ?><option value="<?= escapeHtml($category) ?>" <?= $filters['category'] === $category ? 'selected' : '' ?>><?= escapeHtml($category) ?></option><?php endforeach; ?></select></div>
+      <div class="col-12 col-sm-6 col-lg-2"><label class="form-label small fw-semibold" for="max_price">Precio máximo (USD)</label><input class="form-control" id="max_price" name="max_price" type="number" min="0" step="1" value="<?= escapeHtml($filters['max_price']) ?>" placeholder="Sin límite"></div>
+      <div class="col-12 col-sm-8 col-lg-2"><label class="form-label small fw-semibold" for="sort">Ordenar por</label><select class="form-select" id="sort" name="sort"><option value="featured" <?= $filters['sort'] === 'featured' ? 'selected' : '' ?>>Destacados</option><option value="price-asc" <?= $filters['sort'] === 'price-asc' ? 'selected' : '' ?>>Menor precio</option><option value="price-desc" <?= $filters['sort'] === 'price-desc' ? 'selected' : '' ?>>Mayor precio</option><option value="rating" <?= $filters['sort'] === 'rating' ? 'selected' : '' ?>>Mejor valoración</option></select></div>
+      <div class="col-12 col-sm-4 col-lg-1"><button class="btn btn-primary w-100" type="submit">Filtrar</button></div>
+      <div class="col-12"><a class="small" href="catalogo.php">Limpiar filtros</a></div>
+    </div></div></form>
+    <?php if (!$products): ?><div class="empty-state text-center p-5 mt-3 rounded-4"><span class="fs-1" aria-hidden="true">⌕</span><h3 class="h5 mt-2">No encontramos productos</h3><p class="text-secondary mb-0">Prueba con otra búsqueda o modifica los filtros.</p></div>
+    <?php else: ?><div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4">
+      <?php foreach ($products as $product): ?><div class="col"><article class="card product-card h-100 shadow-sm"><div class="product-media ratio ratio-4x3 bg-body-tertiary"><?php if ($product->image !== ''): ?><img src="<?= escapeHtml($product->image) ?>" alt="<?= escapeHtml($product->name) ?>"><?php else: ?><div class="product-placeholder" role="img" aria-label="Imagen de <?= escapeHtml($product->name) ?>"><span class="placeholder-mark">＋</span><span class="small">Imagen del producto</span></div><?php endif; ?></div>
+        <div class="card-body d-flex flex-column p-4"><div class="d-flex justify-content-between align-items-center mb-2"><span class="badge rounded-pill text-bg-light"><?= escapeHtml($product->category) ?></span><span class="small text-warning-emphasis" aria-label="Calificación <?= escapeHtml((string) $product->rating) ?> de 5">★ <?= number_format($product->rating, 1) ?> <span class="text-secondary">(<?= $product->reviews ?>)</span></span></div><h3 class="h5 card-title"><?= escapeHtml($product->name) ?></h3><p class="card-text text-secondary small"><?= escapeHtml($product->description) ?></p><ul class="product-features small text-secondary mb-3"><?php foreach (array_slice($product->features, 0, 2, true) as $label => $value): ?><li><strong><?= escapeHtml($label) ?>:</strong> <?= escapeHtml($value) ?></li><?php endforeach; ?></ul><div class="mt-auto d-flex align-items-center justify-content-between gap-2"><span class="h5 fw-bold text-primary mb-0"><?= formatPrice($product->price) ?></span><form method="post" action="carrito.php"><input type="hidden" name="action" value="add"><input type="hidden" name="product_id" value="<?= escapeHtml($product->id) ?>"><button class="btn btn-primary" type="submit">Añadir al carrito</button></form></div></div>
+      </article></div><?php endforeach; ?>
+    </div><?php endif; ?>
+  </section>
+</main>
+<?php require __DIR__ . '/partials/footer.php'; ?>

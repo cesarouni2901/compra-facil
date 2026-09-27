@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CompraFácil: encuentra productos y compra de forma sencilla.">
+  <title>Inicio | CompraFácil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site-header bg-white border-bottom">
+    <div class="container-xl py-3 d-flex justify-content-between align-items-center gap-3 flex-wrap">
+      <a class="brand fs-4 fw-bold text-decoration-none" href="index.html">Compra<span>Fácil</span></a>
+      <nav class="d-flex align-items-center gap-2 flex-wrap" aria-label="Navegación principal">
+        <a class="nav-link px-2 active" href="index.html">Inicio</a>
+        <a class="nav-link px-2" href="catalogo.php">Productos</a>
+        <a class="nav-link px-2" href="registro-vendedor.php">Vender</a>
+        <a class="nav-link px-2" href="registro-cliente.php">Mi cuenta</a>
+        <a class="btn btn-primary btn-sm ms-md-2" href="carrito.php">Carrito</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero-section">
+      <div class="container-xl py-5 py-lg-6">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <span class="eyebrow">Compra fácil, elige mejor</span>
+            <h1 class="display-4 fw-bold mt-3">Encuentra lo que necesitas, a tu manera.</h1>
+            <p class="lead text-secondary mt-3 mb-4">Explora productos de distintas categorías y encuentra una opción que se adapte a ti.</p>
+            <a class="btn btn-primary btn-lg" href="catalogo.php">Explorar productos</a>
+          </div>
+          <div class="col-lg-5">
+            <div class="hero-card p-4 p-lg-5">
+              <span class="hero-card-icon" aria-hidden="true">✦</span>
+              <h2 class="h4 mt-4">Una experiencia sencilla</h2>
+              <p class="text-secondary mb-0">Busca productos, revisa sus características y opiniones, y agrégalos al carrito.</p>
+              <div class="hero-decoration" aria-hidden="true">✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="container-xl py-5">
+      <div class="row row-cols-1 row-cols-md-3 g-3" aria-label="Cómo comprar">
+        <div class="col"><article class="card h-100 border-0 shadow-sm"><div class="card-body"><span class="badge rounded-pill text-bg-primary mb-2">1</span><h2 class="h5">Explora</h2><p class="text-secondary mb-0">Revisa los productos disponibles en el catálogo.</p></div></article></div>
+        <div class="col"><article class="card h-100 border-0 shadow-sm"><div class="card-body"><span class="badge rounded-pill text-bg-primary mb-2">2</span><h2 class="h5">Filtra</h2><p class="text-secondary mb-0">Encuentra opciones por categoría y precio.</p></div></article></div>
+        <div class="col"><article class="card h-100 border-0 shadow-sm"><div class="card-body"><span class="badge rounded-pill text-bg-primary mb-2">3</span><h2 class="h5">Compra</h2><p class="text-secondary mb-0">Agrega productos al carrito y revisa tu pedido.</p></div></article></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer border-top bg-white"><div class="container-xl py-4 small text-secondary">CompraFácil · Compra con confianza</div></footer>
+</body>
+</html>

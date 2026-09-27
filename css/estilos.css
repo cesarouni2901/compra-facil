@@ -1,0 +1,51 @@
+/* Ajustes visuales propios; la cuadrícula y los componentes se mantienen en Bootstrap 5. */
+:root {
+  --bs-primary: #326da4;
+  --bs-primary-rgb: 50, 109, 164;
+  --bs-link-color: #326da4;
+  --bs-link-hover-color: #234f78;
+  --bs-body-bg: #f7f8fa;
+  --bs-body-color: #263442;
+  --brand-blue: #326da4;
+  --brand-ink: #263442;
+  --brand-soft: #eaf2f8;
+}
+
+body { min-height: 100vh; }
+.brand { color: var(--brand-ink); letter-spacing: -.04em; }
+.brand span { color: var(--brand-blue); }
+.site-header { z-index: 1030; }
+.site-header .nav-link { color: #465565; font-size: .95rem; }
+.site-header .nav-link:hover, .site-header .nav-link.active { color: var(--brand-blue); }
+.btn-primary { --bs-btn-bg: var(--brand-blue); --bs-btn-border-color: var(--brand-blue); --bs-btn-hover-bg: #27577f; --bs-btn-hover-border-color: #27577f; --bs-btn-active-bg: #214967; }
+.btn-outline-primary { --bs-btn-color: var(--brand-blue); --bs-btn-border-color: var(--brand-blue); --bs-btn-hover-bg: var(--brand-blue); --bs-btn-hover-border-color: var(--brand-blue); }
+.hero-section { overflow: hidden; background: linear-gradient(120deg, #f2f5f8 0%, #f8f4ef 100%); }
+.py-lg-6 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+.eyebrow { color: var(--brand-blue); font-size: .75rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.hero-section h1 { max-width: 12ch; color: var(--brand-ink); letter-spacing: -.045em; }
+.hero-card { position: relative; overflow: hidden; min-height: 260px; border: 1px solid rgba(50, 109, 164, .12); border-radius: 1.25rem; background: rgba(255, 255, 255, .86); box-shadow: 0 1rem 3rem rgba(37, 56, 75, .08); }
+.hero-card-icon { display: inline-grid; width: 3.25rem; height: 3.25rem; place-items: center; border-radius: 1rem; background: var(--brand-soft); color: var(--brand-blue); font-size: 1.5rem; }
+.hero-decoration { position: absolute; right: 1.5rem; bottom: -2.5rem; color: rgba(50, 109, 164, .08); font-size: 13rem; font-weight: 700; line-height: 1; }
+.filter-panel, .product-card, .card { border-radius: 1rem; }
+.account-page { min-height: calc(100vh - 150px); background: linear-gradient(145deg, #f2f5f8, #f8f4ef); }
+.account-card { overflow: hidden; background: #fff; }
+.account-card-heading { background: var(--brand-blue); }
+.form-control, .form-select { min-height: 2.8rem; border-color: #dce2e8; }
+.form-control:focus, .form-select:focus { border-color: #80add2; box-shadow: 0 0 0 .2rem rgba(50, 109, 164, .14); }
+.product-card { overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; }
+.product-card:hover { transform: translateY(-3px); box-shadow: 0 1rem 2rem rgba(37, 56, 75, .1) !important; }
+.product-media > img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
+.product-placeholder { display: grid; width: 100%; height: 100%; place-content: center; justify-items: center; gap: .25rem; background: linear-gradient(145deg, #edf2f6, #e7edf2); color: #7c8b99; }
+.placeholder-mark { color: #9aa9b6; font-size: 2.5rem; line-height: 1; }
+.product-features { padding-left: 1.1rem; }
+.product-features li + li { margin-top: .2rem; }
+.empty-state { background: #edf2f6; color: #617282; }
+.payment-option { display: flex; align-items: flex-start; gap: .65rem; cursor: pointer; }
+.payment-option:has(input:checked) { border-color: var(--brand-blue) !important; background: var(--brand-soft); }
+.site-footer { margin-top: 2rem; }
+
+@media (max-width: 575.98px) {
+  .site-header .container-xl { justify-content: center !important; }
+  .site-header nav { justify-content: center; }
+  .hero-section h1 { font-size: 2.5rem; }
+}
