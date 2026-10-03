@@ -8,6 +8,12 @@ class AccountRules
         return preg_match('/^[\p{L}\p{M} ]{2,60}$/u', trim($name)) === 1;
     }
 
+    /** Usuario corto para mostrar en el menú y permitir iniciar sesión. */
+    public static function validUsername(string $username): bool
+    {
+        return preg_match('/^[A-Za-z0-9_.-]{3,20}$/', $username) === 1;
+    }
+
     /** Solo se admiten dígitos para el documento de identidad. */
     public static function validDocument(string $document): bool
     {

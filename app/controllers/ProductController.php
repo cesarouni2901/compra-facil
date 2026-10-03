@@ -20,22 +20,31 @@ class ProductController
         $category = trim((string) ($_POST['category'] ?? ''));
         $description = trim((string) ($_POST['description'] ?? ''));
         $basePrice = filter_var($_POST['price'] ?? null, FILTER_VALIDATE_FLOAT);
-        if ($name === '' || $brand === '' || $category === '' || $description === '' || $basePrice === false || $basePrice <= 0) {
+        if ($name === '' || $brand === '' || !in_array($category, ProductCatalog::CATEGORIES, true) || $description === '' || $basePrice === false || $basePrice <= 0) {
             return 'Completa el nombre, marca, categoría, descripción y un precio mayor a cero.';
         }
 
         $variants = [];
-        $colors = $_POST['colors'] ?? [];
-        $storages = $_POST['storages'] ?? [];
-        $prices = $_POST['variant_prices'] ?? [];
+        // Solo guarda colores elegidos en la lista fija del modelo del catálogo.
+        $colors = array_values(array_unique(array_filter(
+            is_array($_POST['colors'] ?? null) ? $_POST['colors'] : [],
+            fn ($color): bool => is_string($color) && array_key_exists($color, ProductCatalog::COLORS)
+        )));
+        $storages = is_array($_POST['storages'] ?? null) ? $_POST['storages'] : [];
         for ($index = 0; $index < 6; $index++) {
-            $color = trim((string) ($colors[$index] ?? ''));
             $storage = trim((string) ($storages[$index] ?? ''));
-            if ($color === '' && $storage === '') continue;
-            $variantPrice = filter_var($prices[$index] ?? null, FILTER_VALIDATE_FLOAT);
-            $variants[] = ['color' => $color, 'storage' => $storage, 'price' => $variantPrice !== false && $variantPrice > 0 ? $variantPrice : (float) $basePrice];
+            if ($storage !== '') $storages[$index] = mb_substr($storage, 0, 60, 'UTF-8');
+            else unset($storages[$index]);
         }
-        if (!$variants) $variants[] = ['color' => '', 'storage' => '', 'price' => (float) $basePrice];
+        $storages = array_values($storages);
+        if (!$colors) $colors = [''];
+        if (!$storages) $storages = [''];
+        // Cada producto variante representa una combinación del color y característica elegidos.
+        foreach ($colors as $color) {
+            foreach ($storages as $storage) {
+                $variants[] = ['color' => $color, 'storage' => $storage, 'price' => (float) $basePrice];
+            }
+        }
 
         try {
             $images = $this->saveUploadedImages($_FILES['images'] ?? [], $_POST['image_views'] ?? []);

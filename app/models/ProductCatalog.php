@@ -2,6 +2,12 @@
 /** Modelo con los productos y las reglas de búsqueda y filtrado. */
 class ProductCatalog
 {
+    /** Categorías predefinidas usadas por el catálogo y el formulario de publicación. */
+    public const CATEGORIES = ['Audio', 'Belleza y cuidado personal', 'Computación', 'Deportes', 'Hogar', 'Juguetes', 'Libros', 'Ropa y accesorios', 'Telefonía', 'Videojuegos', 'Otros'];
+
+    /** Colores que el vendedor puede marcar sin escribirlos manualmente. */
+    public const COLORS = ['Negro' => '#171717', 'Blanco' => '#f5f5f5', 'Gris' => '#aeb4ba', 'Azul' => '#77a9dc', 'Rojo' => '#c64b45', 'Verde' => '#55a878', 'Amarillo' => '#edc84d', 'Rosado' => '#e89ab5', 'Morado' => '#9475c5', 'Naranja' => '#e9924d'];
+
     private array $products;
 
     public function __construct()

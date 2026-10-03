@@ -12,6 +12,7 @@ class AccountController
 
         $user = [
             'role' => $role,
+            'username' => trim((string) ($_POST['usuario'] ?? '')),
             'first_name' => trim((string) ($_POST['nombre'] ?? '')),
             'last_name' => trim((string) ($_POST['apellido'] ?? '')),
             'document' => trim((string) ($_POST['documento'] ?? '')),
@@ -21,6 +22,7 @@ class AccountController
             'business' => trim((string) ($_POST['negocio'] ?? '')),
             'password' => (string) ($_POST['contrasena'] ?? ''),
         ];
+        if (!AccountRules::validUsername($user['username'])) return 'El usuario debe tener entre 3 y 20 caracteres: letras, números, punto, guion o guion bajo.';
         if (!AccountRules::validName($user['first_name']) || !AccountRules::validName($user['last_name'])) return 'Nombre y apellido solo pueden contener letras y espacios.';
         if (!AccountRules::validDocument($user['document'])) return 'El documento debe contener únicamente números (5 a 20 dígitos).';
         if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) return 'Escribe un correo electrónico válido.';
@@ -31,10 +33,10 @@ class AccountController
         if ($user['password'] !== (string) ($_POST['confirmacion'] ?? '')) return 'Las claves no coinciden.';
 
         try {
-            $id = $this->users->create($user);
-            $_SESSION['auth'] = ['id' => $id, 'role' => $role, 'is_adult' => true];
-            session_regenerate_id(true);
-            return 'Cuenta creada y sesión iniciada correctamente.';
+            $this->users->create($user);
+            // PRG: al completar el registro vuelve al inicio sin autenticar automáticamente.
+            header('Location: index.html');
+            exit;
         } catch (DomainException $exception) {
             return $exception->getMessage();
         }
@@ -45,12 +47,54 @@ class AccountController
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return '';
         if (!validateCsrfToken((string) ($_POST['csrf_token'] ?? ''))) return 'La sesión del formulario venció. Recarga la página e inténtalo otra vez.';
-        $user = $this->users->authenticate(trim((string) ($_POST['correo'] ?? '')), (string) ($_POST['contrasena'] ?? ''));
+        $user = $this->users->authenticate(trim((string) ($_POST['identidad'] ?? '')), (string) ($_POST['contrasena'] ?? ''));
         if (!$user) return 'Correo o contraseña incorrectos.';
         if (!$user['is_adult']) return 'La cuenta no cumple con el requisito de edad para comprar o vender.';
         session_regenerate_id(true);
         $_SESSION['auth'] = $user;
         header('Location: catalogo.php');
         exit;
+    }
+
+    /** Devuelve los datos del perfil de la cuenta actualmente autenticada. */
+    public function profile(): ?array
+    {
+        $user = authenticatedUser();
+        return $user ? $this->users->profile((int) $user['id']) : null;
+    }
+
+    /** Valida y guarda los cambios de perfil del cliente o vendedor conectado. */
+    public function updateProfile(): string
+    {
+        $sessionUser = authenticatedUser();
+        if (!$sessionUser) return 'Inicia sesión para editar tus datos.';
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return '';
+        if (!validateCsrfToken((string) ($_POST['csrf_token'] ?? ''))) return 'La sesión del formulario venció. Recarga la página.';
+
+        $user = [
+            'username' => trim((string) ($_POST['usuario'] ?? '')),
+            'first_name' => trim((string) ($_POST['nombre'] ?? '')),
+            'last_name' => trim((string) ($_POST['apellido'] ?? '')),
+            'document' => trim((string) ($_POST['documento'] ?? '')),
+            'email' => trim((string) ($_POST['correo'] ?? '')),
+            'phone' => trim((string) ($_POST['telefono'] ?? '')),
+            'business' => trim((string) ($_POST['negocio'] ?? '')),
+        ];
+        if (!AccountRules::validUsername($user['username'])) return 'El usuario debe tener entre 3 y 20 caracteres: letras, números, punto, guion o guion bajo.';
+        if (!AccountRules::validName($user['first_name']) || !AccountRules::validName($user['last_name'])) return 'Nombre y apellido solo pueden contener letras y espacios.';
+        if (!AccountRules::validDocument($user['document'])) return 'La cédula debe contener únicamente números.';
+        if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) return 'Escribe un correo electrónico válido.';
+        if ($sessionUser['role'] === 'vendedor' && $user['phone'] === '') return 'Completa el teléfono de contacto.';
+        if ($user['phone'] !== '' && !AccountRules::validPhone($user['phone'])) return 'El teléfono solo puede contener de 7 a 15 números.';
+        if ($sessionUser['role'] === 'vendedor' && $user['business'] === '') return 'Completa el nombre del negocio.';
+
+        try {
+            $this->users->updateProfile((int) $sessionUser['id'], $user);
+            $_SESSION['auth']['username'] = $user['username'];
+            $_SESSION['auth']['display_name'] = $user['first_name'];
+            return 'Datos actualizados correctamente.';
+        } catch (DomainException $exception) {
+            return $exception->getMessage();
+        }
     }
 }
