@@ -24,10 +24,14 @@
       <details class="account-menu">
         <summary aria-label="Opciones de cuenta" title="Opciones de cuenta"><span class="account-avatar" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 1c-3.314 0-6 1.567-6 3.5V14h12v-1.5C14 10.567 11.314 9 8 9Z"/></svg></span></summary>
         <div class="account-menu-panel shadow">
-          <strong><?= escapeHtml((string) ($currentUser['username'] ?? $currentUser['display_name'] ?? 'Usuario')) ?></strong>
-          <span class="small text-secondary d-block mb-2"><?= $currentUser['role'] === 'vendedor' ? 'Cuenta de vendedor' : 'Cuenta de cliente' ?></span>
-          <a class="btn btn-outline-primary btn-sm w-100 mb-2" href="editar-cuenta.php">Editar mis datos</a>
-          <form method="post" action="logout.php"><input type="hidden" name="csrf_token" value="<?= escapeHtml(csrfToken()) ?>"><button class="btn btn-outline-secondary btn-sm w-100" type="submit">Cerrar sesión</button></form>
+          <div class="account-menu-heading">
+            <strong><?= escapeHtml((string) ($currentUser['username'] ?? $currentUser['display_name'] ?? 'Usuario')) ?></strong>
+            <span class="account-role-badge"><?= $currentUser['role'] === 'vendedor' ? 'Vendedor' : 'Cliente' ?></span>
+          </div>
+          <div class="account-menu-actions">
+            <a class="btn btn-outline-primary btn-sm w-100" href="editar-cuenta.php">Editar mis datos</a>
+            <form method="post" action="logout.php"><input type="hidden" name="csrf_token" value="<?= escapeHtml(csrfToken()) ?>"><button class="btn btn-light btn-sm w-100" type="submit">Cerrar sesión</button></form>
+          </div>
         </div>
       </details>
       <?php endif; ?>

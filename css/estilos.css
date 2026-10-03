@@ -17,11 +17,20 @@ body { min-height: 100vh; }
 .site-header { z-index: 1030; }
 .site-header .nav-link { color: #465565; font-size: .95rem; }
 .site-header .nav-link:hover, .site-header .nav-link.active { color: var(--brand-blue); }
-.account-menu { position: relative; }
-.account-menu summary { display: flex; align-items: center; cursor: pointer; list-style: none; color: var(--brand-ink); }
-.account-menu summary::-webkit-details-marker { display: none; }
-.account-avatar { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border-radius: 50%; background: var(--brand-soft); font-size: 1.25rem; }
-.account-menu-panel { position: absolute; top: calc(100% + .75rem); right: 0; z-index: 1040; width: 13rem; padding: 1rem; border: 1px solid #e1e6eb; border-radius: .75rem; background: #fff; }
+.account-menu { position: relative; align-self: center; }
+.account-menu > summary { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid #e1e6eb; border-radius: 50%; background: #fff; color: #526273; cursor: pointer; list-style: none; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
+.account-menu > summary::-webkit-details-marker { display: none; }
+.account-menu > summary::marker { content: ""; }
+.account-menu > summary:hover, .account-menu[open] > summary { border-color: #b8cde0; background: var(--brand-soft); color: var(--brand-blue); }
+.account-menu > summary:focus-visible { outline: 3px solid rgba(50, 109, 164, .25); outline-offset: 2px; }
+.account-avatar { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border-radius: 50%; }
+.account-menu-panel { position: absolute; top: calc(100% + .7rem); right: 0; z-index: 1040; width: 16rem; overflow: visible; padding: 1rem; border: 1px solid #e5eaf0; border-radius: .9rem; background: #fff; box-shadow: 0 .75rem 2rem rgba(35, 55, 75, .16) !important; }
+.account-menu-panel::before { position: absolute; top: -.4rem; right: .95rem; width: .75rem; height: .75rem; border-top: 1px solid #e5eaf0; border-left: 1px solid #e5eaf0; background: #fff; content: ""; transform: rotate(45deg); }
+.account-menu-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding-bottom: .85rem; border-bottom: 1px solid #edf0f3; }
+.account-menu-heading strong { overflow: hidden; color: var(--brand-ink); font-size: .95rem; text-overflow: ellipsis; }
+.account-role-badge { padding: .2rem .55rem; border-radius: 2rem; background: var(--brand-soft); color: var(--brand-blue); font-size: .72rem; font-weight: 700; white-space: nowrap; }
+.account-menu-actions { display: grid; gap: .5rem; padding-top: .85rem; }
+.account-menu-actions .btn { min-height: 2.45rem; border-radius: .55rem; font-weight: 600; }
 .color-choice { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border: 1px solid #dce2e8; border-radius: 2rem; background: #fff; cursor: pointer; }
 .color-choice:has(input:checked) { border-color: var(--brand-blue); background: var(--brand-soft); }
 .color-swatch { display: inline-block; width: 1.05rem; height: 1.05rem; border: 1px solid #adb5bd; border-radius: 50%; background: var(--swatch-color); }
