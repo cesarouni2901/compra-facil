@@ -18,11 +18,10 @@ body { min-height: 100vh; }
 .site-header .nav-link { color: #465565; font-size: .95rem; }
 .site-header .nav-link:hover, .site-header .nav-link.active { color: var(--brand-blue); }
 .account-menu { position: relative; }
-.account-menu summary { display: flex; align-items: center; gap: .4rem; cursor: pointer; list-style: none; color: var(--brand-ink); }
+.account-menu summary { display: flex; align-items: center; cursor: pointer; list-style: none; color: var(--brand-ink); }
 .account-menu summary::-webkit-details-marker { display: none; }
 .account-avatar { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border-radius: 50%; background: var(--brand-soft); font-size: 1.25rem; }
-.account-menu-name { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; font-size: .9rem; font-weight: 600; }
-.account-menu-panel { position: absolute; top: calc(100% + .75rem); left: 0; z-index: 1040; width: 13rem; padding: 1rem; border: 1px solid #e1e6eb; border-radius: .75rem; background: #fff; }
+.account-menu-panel { position: absolute; top: calc(100% + .75rem); right: 0; z-index: 1040; width: 13rem; padding: 1rem; border: 1px solid #e1e6eb; border-radius: .75rem; background: #fff; }
 .color-choice { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border: 1px solid #dce2e8; border-radius: 2rem; background: #fff; cursor: pointer; }
 .color-choice:has(input:checked) { border-color: var(--brand-blue); background: var(--brand-soft); }
 .color-swatch { display: inline-block; width: 1.05rem; height: 1.05rem; border: 1px solid #adb5bd; border-radius: 50%; background: var(--swatch-color); }

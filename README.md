@@ -4,7 +4,7 @@ Catálogo de productos con búsqueda, filtros, opciones de producto, carrito, cu
 
 ## Páginas
 
-- `index.html`: inicio estático.
+- `index.php`: inicio que conserva y muestra el estado de la sesión.
 - `catalogo.php`: catálogo con búsqueda por texto, categoría, marca, precio y ordenamiento.
 - `producto.php`: detalle, distintas vistas fotográficas y opciones de color/capacidad.
 - `producto-nuevo.php`: formulario de publicación disponible para vendedores adultos con sesión iniciada; admite seis fotos por producto.
@@ -13,7 +13,7 @@ Catálogo de productos con búsqueda, filtros, opciones de producto, carrito, cu
 
 ## Código y tecnologías
 
-El proyecto utiliza PHP, HTML y CSS con Bootstrap 5 como framework visual; no tiene JavaScript ni base de datos. Mantiene una estructura MVC introductoria en `app/models/`, `app/controllers/` y `app/views/`. Las entradas se validan en el servidor además de las restricciones HTML.
+El proyecto utiliza PHP, HTML y CSS con Bootstrap 5 como framework visual, sin base de datos. JavaScript se limita a filtrar caracteres, mostrar/ocultar claves y comparar las claves en los formularios de cuenta. Mantiene una estructura MVC introductoria en `app/models/`, `app/controllers/` y `app/views/`. Las entradas se validan en el servidor además de las restricciones HTML.
 
 ## Privacidad y credenciales
 

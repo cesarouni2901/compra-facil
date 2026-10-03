@@ -35,7 +35,7 @@ class AccountController
         try {
             $this->users->create($user);
             // PRG: al completar el registro vuelve al inicio sin autenticar automáticamente.
-            header('Location: index.html');
+            header('Location: index.php');
             exit;
         } catch (DomainException $exception) {
             return $exception->getMessage();

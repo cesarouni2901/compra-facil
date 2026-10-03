@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__ . '/app/bootstrap.php';
+// Si la sesión ya está abierta, no mostramos otro formulario de acceso.
+if (authenticatedUser()) {
+    header('Location: catalogo.php');
+    exit;
+}
 $cart = new ShoppingCart();
 $message = '';
 try {
