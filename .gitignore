@@ -1,0 +1,9 @@
+# Credenciales locales: nunca subir estos archivos al repositorio compartido.
+/app/config.local.php
+/app/private/users.json
+/app/private/products.json
+/app/private/.users.lock
+/app/private/.products.lock
+/app/private/*.tmp
+/uploads/products/*
+!/uploads/products/.htaccess

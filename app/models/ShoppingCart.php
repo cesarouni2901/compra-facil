@@ -11,9 +11,10 @@ class ShoppingCart
     }
 
     /** Agrega una unidad del producto a la sesión. */
-    public function add(string $id): void
+    public function add(string $id, string $variantId = 'default'): void
     {
-        $this->items[$id] = ($this->items[$id] ?? 0) + 1;
+        $key = $id . '::' . $variantId;
+        $this->items[$key] = ($this->items[$key] ?? 0) + 1;
         $this->save();
     }
 
@@ -35,6 +36,9 @@ class ShoppingCart
 
     /** Devuelve las cantidades indexadas por identificador de producto. */
     public function getItems(): array { return $this->items; }
+
+    /** Forma una clave estable para el producto y la variante que eligió el cliente. */
+    public static function itemKey(string $id, string $variantId = 'default'): string { return $id . '::' . $variantId; }
 
     /** Cuenta las unidades para el indicador del encabezado. */
     public function getCount(): int { return array_sum($this->items); }

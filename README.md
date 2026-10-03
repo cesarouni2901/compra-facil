@@ -1,29 +1,32 @@
 # CompraFácil
 
-Catálogo de productos con búsqueda, filtros y ordenamiento, carrito de compras y formularios de registro. La comparación de productos se retiró del proyecto.
+Catálogo de productos con búsqueda, filtros, opciones de producto, carrito, cuentas de cliente/vendedor y publicación de productos con varias fotografías.
 
 ## Páginas
 
-- `index.html`: página de inicio estática hecha con HTML y Bootstrap.
-- `catalogo.php`: catálogo con búsqueda por texto, categoría, precio máximo y orden por precio o valoración.
-- `carrito.php`: cantidades, subtotal y opciones de pago de demostración.
-- `registro-cliente.php` y `registro-vendedor.php`: formularios con validación del lado del servidor.
+- `index.html`: inicio estático.
+- `catalogo.php`: catálogo con búsqueda por texto, categoría, marca, precio y ordenamiento.
+- `producto.php`: detalle, distintas vistas fotográficas y opciones de color/capacidad.
+- `producto-nuevo.php`: formulario de publicación disponible para vendedores adultos con sesión iniciada; admite seis fotos por producto.
+- `carrito.php`: cantidades, variantes, subtotal y pago de demostración. Solo cuentas adultas autenticadas pueden confirmar un pedido.
+- `registro-cliente.php`, `registro-vendedor.php` y `login.php`: registro y acceso a cuentas.
 
-## Tecnologías y organización
+## Código y tecnologías
 
-El proyecto utiliza PHP, HTML y CSS con Bootstrap 5.3.8 cargado como hoja de estilos. No requiere JavaScript. El código sigue una organización MVC sencilla:
+El proyecto utiliza PHP, HTML y CSS con Bootstrap 5 como framework visual; no tiene JavaScript ni base de datos. Mantiene una estructura MVC introductoria en `app/models/`, `app/controllers/` y `app/views/`. Las entradas se validan en el servidor además de las restricciones HTML.
 
-- `app/models/`: producto, catálogo y carrito.
-- `app/controllers/`: lógica de catálogo, carrito y registros.
-- `app/views/`: páginas y fragmentos HTML/PHP.
-- `app/bootstrap.php`: inicio de sesión, carga de clases y funciones de formato/escape.
+## Privacidad y credenciales
 
-Los comentarios del código describen la responsabilidad de las clases y los tipos de datos principales. El carrito se guarda en la sesión PHP. El catálogo y los precios son datos de ejemplo expresados en USD. Los registros se validan, pero no crean cuentas porque el proyecto todavía no tiene base de datos. El flujo de pago tampoco procesa transacciones.
+Las cuentas se guardan en `app/private/users.json`, una carpeta bloqueada para acceso web directo por `app/.htaccess` e ignorada por Git. El servidor debe poder escribir allí. Los datos identificables (nombre, apellido, correo, documento, nacimiento, teléfono y negocio) se protegen con **AES-256-GCM**, que cifra y detecta modificaciones. Se usa **HMAC-SHA-256** para comparar correo/documento sin guardarlos en claro. Las claves de acceso se procesan con `password_hash(PASSWORD_DEFAULT)` y se verifican con `password_verify()`; no se pueden descifrar.
+
+La clave de cifrado se genera automáticamente en `app/config.local.php`; ese archivo también está excluido de Git y protegido por `.htaccess`. No borres ni compartas ese archivo si ya existen cuentas: sin la clave no se podrán recuperar los datos cifrados. Conserva una copia protegida de la clave y del archivo de usuarios.
+
+Las cuentas y productos nuevos se guardan en archivos JSON dentro de `app/private/`, que se bloquea para acceso web directo y se excluye de Git. El servidor PHP debe tener permiso para escribir allí. Esta persistencia de archivo es para la demostración académica; no tiene las transacciones, respaldos ni control concurrente de un sistema de producción. Usa HTTPS al publicar el sitio y no subas `app/private/users.json`, `app/private/products.json`, `app/config.local.php` ni fotos de usuarios al repositorio. La carpeta de fotos públicas contiene solamente imágenes de productos.
+
+## Edad y validaciones
+
+Clientes y vendedores deben tener al menos 18 años. El servidor valida la fecha de nacimiento, limita claves a 8–12 caracteres con una mayúscula y un símbolo, acepta solo letras/espacios en nombre y apellido, y solo dígitos en el documento.
 
 ## Inicio local
 
-Inicia Apache desde XAMPP y abre `http://localhost/proyecto%20universudad/`. La página de inicio es `index.html`; el catálogo que procesa los filtros se ejecuta en `catalogo.php`. Bootstrap se carga desde el CDN oficial, así que la primera carga requiere conexión a internet.
-
-## Imágenes
-
-Guarda las imágenes autorizadas en `imagenes/productos/` y agrega la ruta relativa en el registro del producto dentro de `app/models/ProductCatalog.php`, por ejemplo `imagenes/productos/audifonos.jpg`.
+Inicia Apache en XAMPP y abre `http://localhost/proyecto%20universudad/`. Bootstrap se carga desde el CDN oficial, por lo que la primera carga requiere conexión a internet. El pago continúa siendo de demostración y no procesa transacciones.

@@ -39,6 +39,13 @@ body { min-height: 100vh; }
 .placeholder-mark { color: #9aa9b6; font-size: 2.5rem; line-height: 1; }
 .product-features { padding-left: 1.1rem; }
 .product-features li + li { margin-top: .2rem; }
+.detail-image { max-height: 34rem; }
+.image-view-link { display: grid; justify-items: center; gap: .35rem; color: var(--brand-ink); text-decoration: none; }
+.image-thumb { display: block; width: 5.5rem; height: 4.5rem; overflow: hidden; border: 2px solid #dce2e8; border-radius: .65rem; background: #edf2f6; }
+.image-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.image-view-link:hover .image-thumb, .image-view-link:focus .image-thumb { border-color: var(--brand-blue); }
+.variant-option { background: #fff; }
+.variant-option:hover { border-color: var(--brand-blue) !important; }
 .empty-state { background: #edf2f6; color: #617282; }
 .payment-option { display: flex; align-items: flex-start; gap: .65rem; cursor: pointer; }
 .payment-option:has(input:checked) { border-color: var(--brand-blue) !important; background: var(--brand-soft); }
