@@ -14,6 +14,12 @@ class AccountRules
         return preg_match('/^[0-9]{5,20}$/', $document) === 1;
     }
 
+    /** El teléfono conserva solo dígitos y puede incluir prefijo de país. */
+    public static function validPhone(string $phone): bool
+    {
+        return preg_match('/^[0-9]{7,15}$/', $phone) === 1;
+    }
+
     /** El límite incluye el día en que la persona cumple 18 años. */
     public static function isAdult(string $birthDate): bool
     {

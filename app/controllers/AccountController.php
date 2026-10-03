@@ -26,6 +26,7 @@ class AccountController
         if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) return 'Escribe un correo electrónico válido.';
         if (!AccountRules::isAdult($user['birth_date'])) return 'Debes tener al menos 18 años para crear una cuenta.';
         if ($role === 'vendedor' && ($user['business'] === '' || $user['phone'] === '')) return 'Completa el nombre del negocio y el teléfono.';
+        if ($user['phone'] !== '' && !AccountRules::validPhone($user['phone'])) return 'El teléfono solo puede contener de 7 a 15 números.';
         if (!AccountRules::validPassword($user['password'])) return 'La clave debe tener de 8 a 12 caracteres, al menos una mayúscula y un carácter especial.';
         if ($user['password'] !== (string) ($_POST['confirmacion'] ?? '')) return 'Las claves no coinciden.';
 
